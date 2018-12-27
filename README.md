@@ -1,7 +1,6 @@
 # ECS4J - in development
 
 [![Maven](https://maven-badges.herokuapp.com/maven-central/com.github.nickscha/ecs4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.nickscha/ecs4j)
-[![javadoc](http://javadoc.io/badge/com.github.nickscha/ecs4j.svg)](http://javadoc.io/doc/com.github.nickscha/ecs4j)
 ![Build Status](https://travis-ci.org/nickscha/ecs4j.svg?branch=master)
 ![codecov.io](https://codecov.io/github/nickscha/ecs4j/coverage.svg?branch=master)
 ![License](https://img.shields.io/hexpm/l/plug.svg)
