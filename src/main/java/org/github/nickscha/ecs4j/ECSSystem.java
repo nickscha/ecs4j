@@ -18,25 +18,30 @@ package org.github.nickscha.ecs4j;
 import java.util.List;
 
 /**
- * ECS System Specification
+ * ECS4J System Specification
  * <p>
- * An ECS system contains the actual <b>behaviour/logic</b> for the supplied
- * {@link ECSComponent} data from the {@link ECSEntityManagerOld}.
+ * An ECS <b>S</b>ystem contains the actual <b>behaviour/logic</b> for the
+ * supplied {@link ECSComponent} data from the {@link ECSEntityManager}.
  * </p>
  * <b>Example:</b>
  *
  * <pre>
  * public class MovementSystem implements {@link ECSSystem} {
  *
- *      &#64;Override
- *      public void update(ECSEntityManager em) {
- *         List<ECSComponent> components = em.getEntities(Position.ID | Velocity.ID);
- *         ((Position) components.get(0)).x *= ((Velocity) components.get(1)).velX;
- *      }
- * }
+ *     &#64;Override
+ *     public void update(List&lt;ECSComponent&gt; components) {
+ *        Position pos = (Position) components.get(0);
+ *        Velocity vel = (Velocity) components.get(1);
+ *        System.out.println("result= " + (pos.x * vel.velX) + ":" + (pos.y * vel.velY));
+ *     }
  *
- * // Using Lambda
- * ECSSystem movementSystem = em -> {};
+ *     &#64;Override
+ *     public ECSArchetype archetype() {
+ *         return ECSArchetype.builder()
+ *                 .all(Position.class, Velocity.class)
+ *                 .build();
+ *     }
+ * }
  * </pre>
  *
  * @author nickscha
@@ -44,8 +49,45 @@ import java.util.List;
  */
 public interface ECSSystem {
 
+    /**
+     * This method will be invoked from the {@link ECSEntityManager} for each
+     * entity id individually by this system.
+     * <b>Example for system logic:</b>
+     *
+     * <pre>
+     *     &#64;Override
+     *     public void update(List&lt;ECSComponent&gt; components) {
+     *         Position pos = (Position) components.get(0);
+     *         Velocity vel = (Velocity) components.get(1);
+     *         System.out.println("result= " + (pos.x * vel.velX) + ":" + (pos.y * vel.velY));
+     *     }
+     * </pre>
+     *
+     * @param components the set of component per entity supplied from the
+     * {@link ECSEntityManager}
+     */
     void update(List<ECSComponent> components);
 
+    /**
+     * <p>
+     * Each system has to define which set of components it can process. In
+     * ECS4J the required components are defined by using {@link ECSArchetype}.
+     * </p>
+     * <b>Example (the system required the Position and Velocity component):</b>
+     *
+     * <pre>
+     *     &#64;Override
+     *     public ECSArchetype archetype() {
+     *         return ECSArchetype.builder()
+     *                 .all(Position.class, Velocity.class)
+     *                 .build();
+     *     }
+     * </pre>
+     * <b>Note:</b> This method will be only called once the system has been
+     * created in the entity manager
+     *
+     * @return the archetype (set of components required by this system)
+     */
     ECSArchetype archetype();
 
 }

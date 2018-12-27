@@ -24,6 +24,11 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * @author nickscha
+ * @since 0.0.1
+ */
 public final class ECSArchetype {
 
     private final String id;

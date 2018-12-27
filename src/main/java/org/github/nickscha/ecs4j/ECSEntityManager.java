@@ -77,6 +77,21 @@ public final class ECSEntityManager {
         return entityId;
     }
 
+    public ECSEntityManager addComponent(int entityId, ECSComponent component) {
+        if (hasEntity(entityId)) {
+            eId2data.get(entityId).add(component);
+            final List<Class<? extends ECSComponent>> tmp = eId2data.get(entityId).stream().map(e -> e.getClass()).collect(Collectors.toList());
+            // Check if the archetype for the entityId is still valid
+            for (Entry<ECSArchetype, List<Integer>> entry : archetype2eids.entrySet()) {
+                if (entry.getValue().contains(entityId) && !entry.getKey().valid(tmp)) {
+                    // Remove entity for archetype
+                    entry.getValue().remove((Integer) entityId);
+                }
+            }
+        }
+        return this;
+    }
+
     public boolean hasEntity(int entityId) {
         return eId2data.containsKey(entityId);
     }
