@@ -4,7 +4,6 @@
 [![javadoc](http://javadoc.io/badge/com.github.nickscha/ecs4j.svg)](http://javadoc.io/doc/com.github.nickscha/ecs4j)
 ![Build Status](https://travis-ci.org/nickscha/ecs4j.svg?branch=master)
 ![codecov.io](https://codecov.io/github/nickscha/ecs4j/coverage.svg?branch=master)
-![Size](https://reposs.herokuapp.com/?path=nickscha/ecs4j)
 ![License](https://img.shields.io/hexpm/l/plug.svg)
 
 ECS4J provides a lightweight Entity Component System (ECS) implementation which is easy to use as well as a transparent and fluent API.
