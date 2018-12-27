@@ -22,12 +22,12 @@ package org.github.nickscha.ecs4j;
  * constains no logic and behaviour but data.
  * </p>
  * <b>Example:</b>
- * 
+ *
  * <pre>
  * public class Position implements {@link ECSComponent} { x,y }
  * public class Velocity implements {@link ECSComponent} { velX, velY }
  * </pre>
- * 
+ *
  * <p>
  * In ECS <b>one entity can only contain one component of the same class</b>.
  * Given the example above one entity may have a Position and Velocity component
