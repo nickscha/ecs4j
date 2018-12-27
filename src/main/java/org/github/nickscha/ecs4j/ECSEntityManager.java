@@ -97,11 +97,28 @@ public final class ECSEntityManager {
         final ECSArchetype archetype = system.archetype();
         sId2data.put(systemId, system);
         sId2archetype.put(systemId, archetype);
-        archetype2eids.computeIfAbsent(archetype, e -> new ArrayList());
+
+        // If the system is added after entities have been created all entities have to be checked
+        if (!archetype2eids.containsKey(archetype) && eId2data.size() > 0) {
+            archetype2eids.computeIfAbsent(archetype, e -> new ArrayList());
+            assignEntities2Archetype(archetype, eId2data);
+        } else {
+            archetype2eids.computeIfAbsent(archetype, e -> new ArrayList());
+        }
+
         return this;
     }
-    
-    public boolean hasSystem(Class<? extends ECSSystem> system){
+
+    private void assignEntities2Archetype(ECSArchetype archetype, Map<Integer, List<ECSComponent>> eId2data) {
+        for (Entry<Integer, List<ECSComponent>> entry : eId2data.entrySet()) {
+            final List<Class<? extends ECSComponent>> tmp = entry.getValue().stream().map(e -> e.getClass()).collect(Collectors.toList());
+            if (archetype.valid(tmp)) {
+                archetype2eids.get(archetype).add(entry.getKey());
+            }
+        }
+    }
+
+    public boolean hasSystem(Class<? extends ECSSystem> system) {
         return sClass2sId.containsKey(system);
     }
 
