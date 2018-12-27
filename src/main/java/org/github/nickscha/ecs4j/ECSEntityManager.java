@@ -77,6 +77,21 @@ public final class ECSEntityManager {
         return entityId;
     }
 
+    public boolean hasEntity(int entityId) {
+        return eId2data.containsKey(entityId);
+    }
+
+    public boolean removeEntity(int entityId) {
+        if (hasEntity(entityId)) {
+            for (List<Integer> entityIds : archetype2eids.values()) {
+                entityIds.removeIf(e -> e == entityId);
+            }
+            eId2data.remove(entityId);
+            return true;
+        }
+        return false;
+    }
+
     public ECSEntityManager createSystem(ECSSystem system) {
         final int systemId = getOrCreateSystemId(system.getClass());
         final ECSArchetype archetype = system.archetype();
@@ -84,6 +99,10 @@ public final class ECSEntityManager {
         sId2archetype.put(systemId, archetype);
         archetype2eids.computeIfAbsent(archetype, e -> new ArrayList());
         return this;
+    }
+    
+    public boolean hasSystem(Class<? extends ECSSystem> system){
+        return sClass2sId.containsKey(system);
     }
 
     private int getOrCreateSystemId(Class<? extends ECSSystem> system) {
