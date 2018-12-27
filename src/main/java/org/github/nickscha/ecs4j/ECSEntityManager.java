@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
+ * ECS4J EntityManager
  *
  * @author nickscha
  * @since 0.0.1
@@ -90,6 +91,13 @@ public final class ECSEntityManager {
             }
         }
         return this;
+    }
+
+    public boolean hasComponent(int entityId, ECSComponent component) {
+        if (hasEntity(entityId)) {
+            return eId2data.get(entityId).contains(component);
+        }
+        return false;
     }
 
     public boolean hasEntity(int entityId) {

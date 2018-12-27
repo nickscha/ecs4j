@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
- *
+ * ECS4J Archetype
  * @author nickscha
  * @since 0.0.1
  */
