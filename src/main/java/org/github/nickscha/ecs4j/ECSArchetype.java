@@ -20,24 +20,22 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
  * ECS4J Archetype
+ *
  * @author nickscha
  * @since 0.0.1
  */
 public final class ECSArchetype {
 
-    private final String id;
     private final int[] all;
     private final int[] any;
     private final int[] none;
 
-    private ECSArchetype(final String id, final int[] all, final int[] any, final int[] none) {
-        this.id = id;
+    private ECSArchetype(final int[] all, final int[] any, final int[] none) {
         this.all = all;
         this.any = any;
         this.none = none;
@@ -82,10 +80,6 @@ public final class ECSArchetype {
         }
 
         return true;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public static class Builder {
@@ -135,14 +129,17 @@ public final class ECSArchetype {
         }
 
         public ECSArchetype build() {
-            return new ECSArchetype(buildComponentsId(all, any, none), all.stream().mapToInt(i -> i).toArray(), any.stream().mapToInt(i -> i).toArray(), none.stream().mapToInt(i -> i).toArray());
+            return new ECSArchetype(all.stream().mapToInt(i -> i).toArray(), any.stream().mapToInt(i -> i).toArray(), none.stream().mapToInt(i -> i).toArray());
         }
 
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 5;
+        hash = 83 * hash + Arrays.hashCode(this.all);
+        hash = 83 * hash + Arrays.hashCode(this.any);
+        hash = 83 * hash + Arrays.hashCode(this.none);
         return hash;
     }
 
@@ -158,15 +155,16 @@ public final class ECSArchetype {
             return false;
         }
         final ECSArchetype other = (ECSArchetype) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Arrays.equals(this.all, other.all)) {
+            return false;
+        }
+        if (!Arrays.equals(this.any, other.any)) {
+            return false;
+        }
+        if (!Arrays.equals(this.none, other.none)) {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "ECSArchetype{" + "id=" + id + '}';
     }
 
 }
