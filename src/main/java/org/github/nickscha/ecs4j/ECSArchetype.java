@@ -75,11 +75,8 @@ public final class ECSArchetype {
                 check = false;
             }
         }
-        if (!check && any.length > 0) {
-            return false;
-        }
 
-        return true;
+        return !(!check && any.length > 0);
     }
 
     public static class Builder {
