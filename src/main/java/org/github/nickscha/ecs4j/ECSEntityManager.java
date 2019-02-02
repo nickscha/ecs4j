@@ -68,7 +68,7 @@ public final class ECSEntityManager {
         eId2data.put(entityId, components);
 
         // assign to archetpye
-        final List<Class<? extends ECSComponent>> tmp = components.stream().map(e -> e.getClass()).collect(Collectors.toList());
+        final List<Class<? extends ECSComponent>> tmp = components.stream().map(ECSComponent::getClass).collect(Collectors.toList());
         for (Entry<ECSArchetype, List<Integer>> entry : archetype2eids.entrySet()) {
             if (entry.getKey().valid(tmp)) {
                 entry.getValue().add(entityId);
@@ -81,7 +81,7 @@ public final class ECSEntityManager {
     public ECSEntityManager addComponent(int entityId, ECSComponent component) {
         if (hasEntity(entityId)) {
             eId2data.get(entityId).add(component);
-            final List<Class<? extends ECSComponent>> tmp = eId2data.get(entityId).stream().map(e -> e.getClass()).collect(Collectors.toList());
+            final List<Class<? extends ECSComponent>> tmp = eId2data.get(entityId).stream().map(ECSComponent::getClass).collect(Collectors.toList());
             // Check if the archetype for the entityId is still valid
             for (Entry<ECSArchetype, List<Integer>> entry : archetype2eids.entrySet()) {
                 if (entry.getValue().contains(entityId) && !entry.getKey().valid(tmp)) {
@@ -134,7 +134,7 @@ public final class ECSEntityManager {
 
     private void assignEntities2Archetype(ECSArchetype archetype, Map<Integer, List<ECSComponent>> eId2data) {
         for (Entry<Integer, List<ECSComponent>> entry : eId2data.entrySet()) {
-            final List<Class<? extends ECSComponent>> tmp = entry.getValue().stream().map(e -> e.getClass()).collect(Collectors.toList());
+            final List<Class<? extends ECSComponent>> tmp = entry.getValue().stream().map(ECSComponent::getClass).collect(Collectors.toList());
             if (archetype.valid(tmp)) {
                 archetype2eids.get(archetype).add(entry.getKey());
             }

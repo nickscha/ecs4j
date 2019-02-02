@@ -87,10 +87,6 @@ public final class ECSArchetype {
         private static final Map<Class<? extends ECSComponent>, Integer> CLASS_2_CID = new HashMap<>(256);
         private static final AtomicInteger CID_SEQ = new AtomicInteger(0);
 
-        private static final String DIM_ALL = "&";
-        private static final String DIM_ANY = ",";
-        private static final String DIM_NONE = "!";
-
         private List<Integer> all = new ArrayList<>(4);
         private List<Integer> any = new ArrayList<>(4);
         private List<Integer> none = new ArrayList<>(4);
@@ -112,20 +108,6 @@ public final class ECSArchetype {
 
         private static int getOrCreateComponentId(Class<? extends ECSComponent> component) {
             return CLASS_2_CID.computeIfAbsent(component, e -> CID_SEQ.getAndIncrement());
-        }
-
-        private String buildComponentsId(List<Integer> all, List<Integer> any, List<Integer> none) {
-            String id = "";
-            for (int cid : all) {
-                id = id.concat(cid + DIM_ALL);
-            }
-            for (int cid : any) {
-                id = id.concat(cid + DIM_ANY);
-            }
-            for (int cid : none) {
-                id = id.concat(cid + DIM_NONE);
-            }
-            return id;
         }
 
         public ECSArchetype build() {
